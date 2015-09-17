@@ -1,0 +1,114 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>JavaScript Quiz Project</title>
+<link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css" rel="stylesheet" integrity="sha256-MfvZlkHCEqatNoGiOXveE8FIwMzZg4W85qfrfIFBfYc= sha512-dTfge/zgoMYpP7QbHy4gWMEGsbsdZeCXz7irItjcC3sPUFtf0kuFbDz/ixG7ArTxmDjLXDmezHubeNikyKGVyQ==" crossorigin="anonymous">
+<style>
+.col-sm-6 {
+	padding: 10px;
+}
+.pageMovement {
+	margin-top: 25px;
+}
+.answer {
+	margin-left: auto;
+	margin-right: auto;
+	display: block;
+	width: 80%;
+	background: #E6FFE2;
+}
+.container {
+	border: solid 1px #D8D8D8;
+}
+.hide {
+	display: none;
+}
+.show {
+	display: block;
+}
+</style>
+</head>
+<body>
+<div class="container">
+  <h1>Welcome to my Quiz</h1>
+  <div id="quizContent" class="row quiz">
+    <div class="col-sm-12">
+      <h2 id="quizHeader"></h2>
+    </div>
+    <div id="questions" class="row">
+      <div class="col-sm-6"> <a data-id="1" class="btn btn-default answer ">1</a> </div>
+      <div class="col-sm-6"> <a data-id="2" class="btn btn-default answer ">2</a> </div>
+      <div class="col-sm-6"> <a data-id="3" class="btn btn-default answer ">3</a> </div>
+      <div class="col-sm-6"> <a data-id="4" class="btn btn-default answer ">4</a> </div>
+    </div>
+  </div>
+  <div class="row pageMovement">
+    <div id="btnPrevious" class="col-xs-5 col-sm-4 btn btn-primary">Previous</div>
+    <div id="btnNext" class="col-xs-5 col-sm-4 col-sm-offset-4 col-xs-offset-2 btn btn-primary">Next</div>
+  </div>
+</div>
+</body>
+</html>
+<script>
+var curPage = 0;
+var myQuiz = [
+	["What is addEventListener() used for?","attach a click event","nothing","never use it","listens to HTML",1],
+	["What does DOM stand for","Document Object Model ","Document Over Mountains","Do Over Models","Nothing",1],
+	["Question 3","attach a click event","nothing","never use it","listens to HTML",1]
+];
+
+document.getElementById("btnNext").addEventListener("click", moveNext);
+document.getElementById("btnPrevious").addEventListener("click", moveBack);
+
+var myHeader = document.getElementById("quizHeader");
+var classname = document.getElementsByClassName("answer");
+var myQuestion = document.getElementById("questions");
+	console.log(myQuestion);		
+	console.log(myQuestion.children[0]);
+	console.log(myQuestion.children[1]);
+	console.log(myQuestion.children[2]);
+	console.log(myQuestion.children[3]);
+
+
+
+checkPage();
+console.log(classname);
+for (var i = 0; i < classname.length; i++) {
+    classname[i].addEventListener('click', myAnswer, false);
+}
+
+function myAnswer() {
+    var idAnswer = this.getAttribute("data-id");
+    document.getElementById("page1").innerHTML = 'Answer ' + idAnswer;
+}
+
+function moveNext() {
+	if(curPage < (myQuiz.length-1) ){
+    curPage++;
+    checkPage(curPage);
+	}else{
+		console.log('end of quiz Page ' + curPage);
+	}
+}
+
+function checkPage(i) {
+	console.log(curPage+1);
+	myHeader.innerHTML =myQuiz[curPage][0];
+	for (var i = 0; i < myQuestion.children.length; i++) {
+    var curNode = myQuestion.children[i];
+    console.log(curNode.childNodes[1].innerHTML);
+	curNode.childNodes[1].innerHTML=myQuiz[curPage][(i+1)];
+	}
+}
+
+function moveBack() {
+	if(curPage > 0){
+    curPage--;
+    checkPage(curPage);
+	}else{
+		console.log('end of quiz Page ' + curPage);
+	}
+
+}
+</script>
