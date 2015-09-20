@@ -42,53 +42,25 @@ crossorigin="anonymous">
 <body>
 <div class="container">
 <h1>qz</h1>
-	<div id="page1" class="row quiz">
-		<div class="row">
-			<div class="col-sm-12">
-				<h2> query 1<span></span></h2>
-				<p>q...</p>
+	<div id="quizContent" class="row quiz">
+		<div class="col-sm-12">
+			<h2 id="quizHeader"></h2>
+		</div>
+		<div id="questions" class="row">
+			<div class="col-sm-6">
+				<a data-id="1" class="btn btn-default answer"></a>
+			</div>
+			<div class="col-sm-6">
+				 <a data-id="2" class="btn btn-default answer"></a>
+			</div>
+			<div class="col-sm-6">
+				 <a data-id="3" class="btn btn-default answer"></a>
+			</div>
+			<div class="col-sm-6">
+				 <a data-id="4" class="btn btn-default answer"></a>
 			</div>
 		</div>
-		<div class="row">
-			<div class="col-sm-6">
-				<a data-id="1" class="btn btn-default answer">a1.1</a>
-			</div>
-			<div class="col-sm-6">
-				 <a data-id="2" class="btn btn-default answer">a1.2</a>
-			</div>
-			<div class="col-sm-6">
-				 <a data-id="3" class="btn btn-default answer">a1.3</a>
-			</div>
-			<div class="col-sm-6">
-				 <a data-id="4" class="btn btn-default answer">a1.4</a>
-			</div>
-		</div>
-	</div>
-	
-	<!-- dodana klasa css hide, ktora ukrywa strone. Klasa jest zdefiniowana na wstępie w style -->
-	<div id="page2" class="row quiz hide">
-		<div class="row">
-			<div class="col-sm-12">
-				<h2> query 2<span></span></h2>
-				<p>q...</p>
-			</div>
-		</div>
-		<div class="row">
-			<div class="col-sm-6"> 
-				<a data-id="1" class="btn btn-default answer">a2.1</a>
-			</div>
-			<div class="col-sm-6">
-				 <a data-id="2" class="btn btn-default answer">a2.2</a>
-			</div>
-			<div class="col-sm-6">
-				 <a data-id="3" class="btn btn-default answer">a2.3</a>
-			</div>
-			<div class="col-sm-6">
-				 <a data-id="4" class="btn btn-default answer">a2.4</a>
-			</div>
-		</div>
-	</div>
-	
+	</div>	
 	<div class="row pageMovement">
 		<div id="btnPrevious" class="col-xs-5 col-sm-4 btn btn-primary">Previous</div>
 		<div id="btnNext" class="col-xs-5 col-sm-4 col-sm-offset-4 col-xs-offset-2 btn btn-primary">Next</div>
@@ -101,19 +73,29 @@ crossorigin="anonymous">
 
 
 <script>
-	var currPage = 1;
+	var currPage = -1;
 	
 	var myQuiz = [
-			["What is addEventListener() user for?","attach a click event","nothing","never use it","listens to html",1];
-			["Whats does DOM stands for","Document Object model","Doucement over mountains","Do Over Models","Nothing",1];
+			["What is addEventListener() user for?","attach a click event","nothing","never use it","listens to html",1],
+			["Whats does DOM stands for","Document Object model","Doucement over mountains","Do Over Models","Nothing",1],
+			["question 3","Document Object model 3","Doucement over mountains 3","Do Over Models 3","Nothing",3]
 	];
 	//pobranie obiektów przez id
 	document.getElementById("btnNext").addEventListener("click", moveNext);
 	document.getElementById("btnPrevious").addEventListener("click", moveBack);
 	
+	/*
 	var myOne = document.getElementById("page1");
 	var myTwo = document.getElementById("page2");
+	*/
 	
+	var question = document.getElementById("quizHeader");
+	//question.innerHTML = myQuiz[0][0];
+	
+	//pobranie parenta z którego można odwoływać się do podelementów przez .children[x]
+	var myQuestion = document.getElementById("questions");
+	console.log(myQuestion.children[0]);
+	moveNext(currPage);
 	//to pobierze listę odpowiedzi w tablicy po nazwie klasy
 	var classname = document.getElementsByClassName("answer");
 	console.log(classname);
@@ -130,14 +112,22 @@ crossorigin="anonymous">
 	}
 	
 	function moveNext(){
-		currPage++;
-		checkPage(currPage);
+		if(currPage >= myQuiz.length-1){
+			console.log("End of quiz");
+		} else {
+			currPage++;
+			checkPage(currPage);
+		}
 		//document.getElementById("page1").innerHTML = 'next page ' + currPage;
 	}
 	
 	function moveBack(){
-		currPage--;
-		checkPage(currPage);
+		if(currPage <= 0){
+			console.log("quiz start. stay here!");
+		}else{
+			currPage--;
+			checkPage(currPage);
+		}
 		//document.getElementById("page1").innerHTML = 'previous page ' + currPage;
 	}	
 	
@@ -146,20 +136,12 @@ crossorigin="anonymous">
 	*/
 	function checkPage(i){
 		console.log("checkPage: " + i);
-		if(currPage == 1){
-			// dodawanie i odejmowanie klas css z listy
-			myOne.classList.add("show");
-			myOne.classList.remove("hide");
-			myTwo.classList.remove("show");
-			myTwo.classList.add("hide");
+		question.innerHTML = myQuiz[i][0];
+		for(var j=0;j<myQuestion.children.length;j++){
+			//podwójne zagnieżdżenie, bo obiekt tekstowy jest pod buttonem
+			myQuestion.children[j].children[0].innerHTML = myQuiz[i][j+1];
 		}
-		if(currPage == 2){
-			// dodawanie i odejmowanie klas css z listy dla drugiej strony
-			myOne.classList.remove("show");
-			myOne.classList.add("hide");
-			myTwo.classList.add("show");
-			myTwo.classList.remove("hide");
-		}
+		
 	}
 
 </script>
