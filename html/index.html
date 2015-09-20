@@ -35,6 +35,10 @@ crossorigin="anonymous">
 .pageMovenent {
 	margin-top: 25px;
 }
+
+.selAnswer {
+	background: #4E9267;
+}
 </style>
 
 </head>
@@ -62,9 +66,19 @@ crossorigin="anonymous">
 		</div>
 	</div>	
 	<div class="row pageMovement">
-		<div id="btnPrevious" class="col-xs-5 col-sm-4 btn btn-primary">Previous</div>
-		<div id="btnNext" class="col-xs-5 col-sm-4 col-sm-offset-4 col-xs-offset-2 btn btn-primary">Next</div>
+		<div id="btnPrevious" class="col-xs-5 col-sm-4 btn btn-primary pull-left">Previous</div>
+		<div id="btnNext" class="col-xs-5 col-sm-4 col-sm-offset-4 col-xs-offset-2 btn btn-primary pull-right">Next</div>
 	</div>
+	<div class="row endQuiz">
+		
+	</div>
+	</b>
+	<div class="row progress">
+		<div id="progressBar" class="progress-bar progress-bar-striped active" role="progressbar" aria-valuenow="45" aria-valuemin="0" aria-valuemax="100" style="width: 45%">
+		<span class="sr-only">0% Complete</span>
+	</div>
+</div>
+	
 </div>
 
 
@@ -84,23 +98,21 @@ crossorigin="anonymous">
 	document.getElementById("btnNext").addEventListener("click", moveNext);
 	document.getElementById("btnPrevious").addEventListener("click", moveBack);
 	
-	/*
-	var myOne = document.getElementById("page1");
-	var myTwo = document.getElementById("page2");
-	*/
+
 	
 	var question = document.getElementById("quizHeader");
-	//question.innerHTML = myQuiz[0][0];
-	
 	//pobranie parenta z którego można odwoływać się do podelementów przez .children[x]
 	var myQuestion = document.getElementById("questions");
+	var progressBar = document.getElementById("progressBar");
+	var btnPrevious = document.getElementById("btnPrevious");
+	var btnNext = document.getElementById("btnNext");
+	
 	console.log(myQuestion.children[0]);
 	moveNext(currPage);
-	//to pobierze listę odpowiedzi w tablicy po nazwie klasy
+	//to pobierze listę buttonów odpowiedzi w tablicy po nazwie klasy
 	var classname = document.getElementsByClassName("answer");
-	console.log(classname);
 	for(var i=0;i<classname.length;i++){
-		// dodanie listenera do obiektu. odwołanie do metody będącej obiektem
+		// dodanie listenera do obiektu buttona. odwołanie do metody będącej obiektem
 		classname[i].addEventListener('click',myAnswer,false);
 	}
 	
@@ -108,7 +120,17 @@ crossorigin="anonymous">
 		//kolejna magia - pobranie id z obiektu na którym została wykonana metoda poprzez metodę getAttribute...
 		var idAnswer = this.getAttribute("data-id");
 		console.log(idAnswer);
-		document.getElementById("page1").innerHTML = 'idAnswer ' + idAnswer;
+		
+		var correctnes = checkCorrectness(idAnswer);
+		console.log("is correct? " + correctnes);
+	}
+	
+	function checkCorrectness(idAnswer){
+		if(idAnswer == myQuiz[currPage][5]){
+			return true;
+		} else {
+			return false;
+		}
 	}
 	
 	function moveNext(){
@@ -118,7 +140,6 @@ crossorigin="anonymous">
 			currPage++;
 			checkPage(currPage);
 		}
-		//document.getElementById("page1").innerHTML = 'next page ' + currPage;
 	}
 	
 	function moveBack(){
@@ -128,13 +149,28 @@ crossorigin="anonymous">
 			currPage--;
 			checkPage(currPage);
 		}
-		//document.getElementById("page1").innerHTML = 'previous page ' + currPage;
 	}	
 	
 	/*
 		Metoda sprawdzajaca a której stronie jestesmy i włączająca lub wyłączająca odpowiednie klasy w obiektach
 	*/
 	function checkPage(i){
+	
+		//wyłączenie buttonów na końcach quizu
+		if(i <=0 ){
+			btnPrevious.classList.add("hide");
+		}else{
+			btnPrevious.classList.remove("hide");
+		}	
+		
+		if(i>= myQuiz.length-1){
+			btnNext.classList.add("hide");
+		} else {
+			btnNext.classList.remove("hide");
+		}
+	
+	
+	
 		console.log("checkPage: " + i);
 		question.innerHTML = myQuiz[i][0];
 		for(var j=0;j<myQuestion.children.length;j++){
@@ -142,6 +178,10 @@ crossorigin="anonymous">
 			myQuestion.children[j].children[0].innerHTML = myQuiz[i][j+1];
 		}
 		
+		//pasek postepu - obliczenie wartości na pasku w procentach
+		var increment = Math.ceil((currPage+1) / (myQuiz.length) *100);
+		progressBar.style.width = (increment) + '%';
+		progressBar.innerHTML = (increment) + '%';
 	}
 
 </script>
