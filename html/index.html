@@ -24,6 +24,14 @@ crossorigin="anonymous">
 	border: solid 1px #D8D8D8;
 }
 
+.hide {
+	display: none;
+}
+
+.show {
+	display.block;
+}
+
 .pageMovenent {
 	margin-top: 25px;
 }
@@ -37,25 +45,50 @@ crossorigin="anonymous">
 	<div id="page1" class="row quiz">
 		<div class="row">
 			<div class="col-sm-12">
-				<h2> q<span></span></h2>
+				<h2> query 1<span></span></h2>
 				<p>q...</p>
 			</div>
 		</div>
 		<div class="row">
-			<div class="col-sm-6"> <a data-id="1" class="btn btn-default answer">
-				a1</a>
+			<div class="col-sm-6">
+				<a data-id="1" class="btn btn-default answer">a1.1</a>
 			</div>
 			<div class="col-sm-6">
-				 <a data-id="2" class="btn btn-default answer">a2</a>
+				 <a data-id="2" class="btn btn-default answer">a1.2</a>
 			</div>
 			<div class="col-sm-6">
-				 <a data-id="3" class="btn btn-default answer">a3</a>
+				 <a data-id="3" class="btn btn-default answer">a1.3</a>
 			</div>
 			<div class="col-sm-6">
-				 <a data-id="4" class="btn btn-default answer">a4</a>
+				 <a data-id="4" class="btn btn-default answer">a1.4</a>
 			</div>
 		</div>
 	</div>
+	
+	<!-- dodana klasa css hide, ktora ukrywa strone. Klasa jest zdefiniowana na wstępie w style -->
+	<div id="page2" class="row quiz hide">
+		<div class="row">
+			<div class="col-sm-12">
+				<h2> query 2<span></span></h2>
+				<p>q...</p>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-sm-6"> 
+				<a data-id="1" class="btn btn-default answer">a2.1</a>
+			</div>
+			<div class="col-sm-6">
+				 <a data-id="2" class="btn btn-default answer">a2.2</a>
+			</div>
+			<div class="col-sm-6">
+				 <a data-id="3" class="btn btn-default answer">a2.3</a>
+			</div>
+			<div class="col-sm-6">
+				 <a data-id="4" class="btn btn-default answer">a2.4</a>
+			</div>
+		</div>
+	</div>
+	
 	<div class="row pageMovement">
 		<div id="btnPrevious" class="col-xs-5 col-sm-4 btn btn-primary">Previous</div>
 		<div id="btnNext" class="col-xs-5 col-sm-4 col-sm-offset-4 col-xs-offset-2 btn btn-primary">Next</div>
@@ -69,9 +102,17 @@ crossorigin="anonymous">
 
 <script>
 	var currPage = 1;
+	
+	var myQuiz = [
+			["What is addEventListener() user for?","attach a click event","nothing","never use it","listens to html",1];
+			["Whats does DOM stands for","Document Object model","Doucement over mountains","Do Over Models","Nothing",1];
+	];
 	//pobranie obiektów przez id
 	document.getElementById("btnNext").addEventListener("click", moveNext);
 	document.getElementById("btnPrevious").addEventListener("click", moveBack);
+	
+	var myOne = document.getElementById("page1");
+	var myTwo = document.getElementById("page2");
 	
 	//to pobierze listę odpowiedzi w tablicy po nazwie klasy
 	var classname = document.getElementsByClassName("answer");
@@ -90,12 +131,35 @@ crossorigin="anonymous">
 	
 	function moveNext(){
 		currPage++;
-		document.getElementById("page1").innerHTML = 'next page ' + currPage;
+		checkPage(currPage);
+		//document.getElementById("page1").innerHTML = 'next page ' + currPage;
 	}
 	
 	function moveBack(){
 		currPage--;
-		document.getElementById("page1").innerHTML = 'previous page ' + currPage;
+		checkPage(currPage);
+		//document.getElementById("page1").innerHTML = 'previous page ' + currPage;
 	}	
+	
+	/*
+		Metoda sprawdzajaca a której stronie jestesmy i włączająca lub wyłączająca odpowiednie klasy w obiektach
+	*/
+	function checkPage(i){
+		console.log("checkPage: " + i);
+		if(currPage == 1){
+			// dodawanie i odejmowanie klas css z listy
+			myOne.classList.add("show");
+			myOne.classList.remove("hide");
+			myTwo.classList.remove("show");
+			myTwo.classList.add("hide");
+		}
+		if(currPage == 2){
+			// dodawanie i odejmowanie klas css z listy dla drugiej strony
+			myOne.classList.remove("show");
+			myOne.classList.add("hide");
+			myTwo.classList.add("show");
+			myTwo.classList.remove("hide");
+		}
+	}
 
 </script>
