@@ -2,7 +2,10 @@
 <html>
 <head>
 <meta charset="utf-8">
+<script src="script/scripts.js"></script>
+
 <title>Quiz</title>
+
 <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css" 
 rel="stylesheet" 
 integrity="sha256-MfvZlkHCEqatNoGiOXveE8FIwMzZg4W85qfrfIFBfYc= sha512-dTfge/zgoMYpP7QbHy4gWMEGsbsdZeCXz7irItjcC3sPUFtf0kuFbDz/ixG7ArTxmDjLXDmezHubeNikyKGVyQ==" 
@@ -69,8 +72,9 @@ crossorigin="anonymous">
 		<div id="btnPrevious" class="col-xs-5 col-sm-4 btn btn-primary pull-left">Previous</div>
 		<div id="btnNext" class="col-xs-5 col-sm-4 col-sm-offset-4 col-xs-offset-2 btn btn-primary pull-right">Next</div>
 	</div>
+	
 	<div class="row endQuiz">
-		
+		<div id="btnEnd" class="btn btn-success btn-block hide">End Quiz</div>
 	</div>
 	</b>
 	<div class="row progress">
@@ -89,11 +93,19 @@ crossorigin="anonymous">
 <script>
 	var currPage = -1;
 	
+	
+	
 	var myQuiz = [
 			["What is addEventListener() user for?","attach a click event","nothing","never use it","listens to html",1],
 			["Whats does DOM stands for","Document Object model","Doucement over mountains","Do Over Models","Nothing",1],
 			["question 3","Document Object model 3","Doucement over mountains 3","Do Over Models 3","Nothing",3]
 	];
+	
+	var answers = [];
+	for(var i=0;i<myQuiz.length;i++){
+		answers[i] = 'x';
+	}
+	
 	//pobranie obiektów przez id
 	document.getElementById("btnNext").addEventListener("click", moveNext);
 	document.getElementById("btnPrevious").addEventListener("click", moveBack);
@@ -106,6 +118,9 @@ crossorigin="anonymous">
 	var progressBar = document.getElementById("progressBar");
 	var btnPrevious = document.getElementById("btnPrevious");
 	var btnNext = document.getElementById("btnNext");
+	var btnEnd = document.getElementById("btnEnd");
+	
+	btnEnd.addEventListener("click",endQuiz);
 	
 	console.log(myQuestion.children[0]);
 	moveNext(currPage);
@@ -116,13 +131,45 @@ crossorigin="anonymous">
 		classname[i].addEventListener('click',myAnswer,false);
 	}
 	
+	
+	function endQuiz(){
+		var correctAnswers = new Array(myQuiz.length);
+		for(var i=0;i<myQuiz.length;i++){
+			if(myQuiz[i][5] == answers[i]){
+				correctAnswers[i] = true;
+			} else {
+				correctAnswers[i] = false;
+			}
+		}
+		
+		createCookie("correctAnswers",correctAnswers,1);
+		
+		window.location="result.html";
+	}
+	
 	function myAnswer(){
 		//kolejna magia - pobranie id z obiektu na którym została wykonana metoda poprzez metodę getAttribute...
 		var idAnswer = this.getAttribute("data-id");
 		console.log(idAnswer);
 		
+		if(answers[currPage] == idAnswer){
+			answers[currPage] = 'x';
+		}else{
+			answers[currPage] = idAnswer;
+		}
+			
 		var correctnes = checkCorrectness(idAnswer);
+		addAnswerBackground();
 		console.log("is correct? " + correctnes);
+	}
+	
+	function addAnswerBackground(){
+		for(var i=0;i<myQuestion.children.length;i++){
+			myQuestion.children[i].children[0].classList.remove("selAnswer");
+		}
+		if(answers[currPage] != 'x'){
+			myQuestion.children[answers[currPage]-1].children[0].classList.add("selAnswer");
+		}	
 	}
 	
 	function checkCorrectness(idAnswer){
@@ -156,6 +203,10 @@ crossorigin="anonymous">
 	*/
 	function checkPage(i){
 	
+		if(i==myQuiz.length-1){
+			btnEnd.classList.remove("hide");
+		}
+	
 		//wyłączenie buttonów na końcach quizu
 		if(i <=0 ){
 			btnPrevious.classList.add("hide");
@@ -182,6 +233,8 @@ crossorigin="anonymous">
 		var increment = Math.ceil((currPage+1) / (myQuiz.length) *100);
 		progressBar.style.width = (increment) + '%';
 		progressBar.innerHTML = (increment) + '%';
+		
+		addAnswerBackground();
 	}
 
 </script>
