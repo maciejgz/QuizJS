@@ -14,9 +14,7 @@
 </head>
 <body>
 
-Your result
-
-<div id>
+<div id="result"></div>
 
 
 <div>
@@ -30,12 +28,22 @@ result();
 
 function result(){
 	console.log("read result");
-	var answers = readCookie("answers").split(",");
-	var correctAnswers = readCookie("correctAnswers").split(",");
+	var answers = readCookie("correctAnswers").split(",");
 	
-	for(var i=0;i<result.length;i++){
-		console.log(i + "=" + result[i]);
+	var resultText = "<p> Twoje wyniki: <p>";
+	
+	for(var i=0;i<answers.length;i++){
+		console.log(i + "=" + answers[i]);
+		resultText += "</br> Pytanie " + (1+i) + ": " + answers[i];
+			
 	}
+		
+	console.log("resultText=" + resultText);
+		
+	
+	
+	var resultDiv = document.getElementById("result");
+	resultDiv.innerHTML=resultText;
 }
 
 
