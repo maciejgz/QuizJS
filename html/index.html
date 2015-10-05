@@ -123,7 +123,7 @@ crossorigin="anonymous">
 	
 	btnEnd.addEventListener("click",endQuiz);
 	
-	console.log(myQuestion.children[0]);
+//	console.log(myQuestion.children[0]);
 	moveNext(currPage);
 	//to pobierze listę buttonów odpowiedzi w tablicy po nazwie klasy
 	var classname = document.getElementsByClassName("answer");
@@ -151,7 +151,7 @@ crossorigin="anonymous">
 	function myAnswer(){
 		//kolejna magia - pobranie id z obiektu na którym została wykonana metoda poprzez metodę getAttribute...
 		var idAnswer = this.getAttribute("data-id");
-		console.log(idAnswer);
+//		console.log(idAnswer);
 		
 		if(answers[currPage] == idAnswer){
 			answers[currPage] = 'x';
@@ -161,7 +161,7 @@ crossorigin="anonymous">
 			
 		var correctnes = checkCorrectness(idAnswer);
 		addAnswerBackground();
-		console.log("is correct? " + correctnes);
+//		console.log("is correct? " + correctnes);
 	}
 	
 	function addAnswerBackground(){
@@ -223,7 +223,7 @@ crossorigin="anonymous">
 	
 	
 	
-		console.log("checkPage: " + i);
+//		console.log("checkPage: " + i); 
 		question.innerHTML = myQuiz[i][0];
 		for(var j=0;j<myQuestion.children.length;j++){
 			//podwójne zagnieżdżenie, bo obiekt tekstowy jest pod buttonem
