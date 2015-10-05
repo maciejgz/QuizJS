@@ -1,0 +1,87 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<script src="scripts/jquery-1.6.2.min.js"></script>
+
+<title>Quiz</title>
+
+<link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css" 
+rel="stylesheet" 
+integrity="sha256-MfvZlkHCEqatNoGiOXveE8FIwMzZg4W85qfrfIFBfYc= sha512-dTfge/zgoMYpP7QbHy4gWMEGsbsdZeCXz7irItjcC3sPUFtf0kuFbDz/ixG7ArTxmDjLXDmezHubeNikyKGVyQ==" 
+crossorigin="anonymous">
+<style>
+.col-sm-6 {
+	padding: 10px;
+}
+
+.answer {
+	margin-left: auto;
+	margin-right: auto;
+	display: block;
+	width: 80%;
+	background: #C6F3FF;
+}
+
+.container{ 
+	border: solid 1px #D8D8D8;
+}
+
+.hide {
+	display: none;
+}
+
+.show {
+	display.block;
+}
+
+.pageMovenent {
+	margin-top: 25px;
+}
+
+.selAnswer {
+	background: #4E9267;
+}
+</style>
+
+</head>
+
+<body>
+<div class="container">
+<h1>change password</h1>
+		<div>Wprowadz haslo:</div>
+		<input type="password" id="oldPassword">
+		<div>Wprowadz nowe haslo:</div>
+		<input type="password" id="newPassword1">
+		<div>Wprowadz ponownie nowe haslo:</div>
+		<input type="password" id="newPassword2"></br>
+
+	
+	<div class="btn btn-primary" id="acceptBtn" >Zatwierdz button</div>
+</div>
+</body>
+</html>
+
+<script>
+$('#changePasswordForm').submit(function (){
+	console.log("changePasswordForm submitted!");
+	var oldPassword = $('#oldPassword').val();
+	var newPassword1 = $('#newPassword1').val();
+	var newPassword2 = $('#newPassword2').val();
+	console.log('oldPassword=' + oldPassword);
+	console.log('newPassword1=' + newPassword1);
+	console.log('newPassword2=' + newPassword2);
+	
+});
+
+
+$('#acceptBtn').bind('click',function(event){
+	var oldPassword = $('#oldPassword').val();
+	var newPassword1 = $('#newPassword1').val();
+	var newPassword2 = $('#newPassword2').val();
+	console.log('oldPassword=' + oldPassword);
+	console.log('newPassword1=' + newPassword1);
+	console.log('newPassword2=' + newPassword2);
+});
+
+</script>
