@@ -1,0 +1,1 @@
+http-server -o -a localhost -p 1337

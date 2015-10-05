@@ -2,6 +2,7 @@
 <html>
 <head>
 <meta charset="utf-8">
+<script src="script/ancestry.js"></script>
 <script src="script/scripts.js"></script>
 <script src="script/eloquentJSscripts.js"></script>
 
@@ -84,14 +85,23 @@ crossorigin="anonymous">
 	</div>
 </div>
 	
-</div>
+    <div id="row_1587_discount" class="">1587 discount</div>   
+<div id="row_1232_discount" class="">1232 discount</div> 
 
+
+    
+</div>
+    
+    
+    
 
 </body>
 </html>
 
 
 <script>
+
+
 	var currPage = -1;
 	
 	
@@ -123,7 +133,7 @@ crossorigin="anonymous">
 	
 	btnEnd.addEventListener("click",endQuiz);
 	
-	console.log(myQuestion.children[0]);
+	//console.log(myQuestion.children[0]);
 	moveNext(currPage);
 	//to pobierze listę buttonów odpowiedzi w tablicy po nazwie klasy
 	var classname = document.getElementsByClassName("answer");
@@ -223,7 +233,7 @@ crossorigin="anonymous">
 	
 	
 	
-		console.log("checkPage: " + i);
+		//console.log("checkPage: " + i);
 		question.innerHTML = myQuiz[i][0];
 		for(var j=0;j<myQuestion.children.length;j++){
 			//podwójne zagnieżdżenie, bo obiekt tekstowy jest pod buttonem
